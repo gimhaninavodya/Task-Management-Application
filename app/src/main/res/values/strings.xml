@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Task-Management-App</string>
+    <string name="all_tag">All</string>
+    <string name="work_tag">Work</string>
+    <string name="personal_tag">Personal</string>
+    <string name="todo_list">ToDo List</string>
+    <string name="add_new_task">Add new task</string>
+    <string name="title">Title</string>
+    <string name="task_description">Task Description</string>
+    <string name="deadline">Deadline</string>
+    <string name="create">CREATE</string>
+    <string name="back">BACK</string>
+    <string name="category">Category</string>
+</resources>

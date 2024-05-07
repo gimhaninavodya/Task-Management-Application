@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Task-Management-App</string>
+    <string name="app_name">ToDo</string>
     <string name="all_tag">All</string>
     <string name="work_tag">Work</string>
     <string name="personal_tag">Personal</string>
@@ -12,4 +12,12 @@
     <string name="back">BACK</string>
     <string name="category">Category</string>
     <string name="todo">ToDo</string>
+    <string name="save">Save</string>
+    <string name="search">Search</string>
+    <string name="delete">Delete</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="save_btn">Save</string>
+    <string name="title_list_view">Title</string>
+    <string name="description_list_view">Description</string>
+    <string name="_2024_05_07">2024-05-07</string>
 </resources>

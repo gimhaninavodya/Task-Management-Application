@@ -13,10 +13,7 @@
         android:theme="@style/Theme.TaskManagementApp"
         tools:targetApi="31">
         <activity
-            android:name=".AddList"
-            android:exported="false" />
-        <activity
-            android:name=".ListMain"
+            android:name=".MainFragment"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -26,6 +23,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
     </application>
 

@@ -1,10 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
-    id ("kotlin-parcelize")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
     id("com.google.devtools.ksp")
-    id ("androidx.navigation.safeargs")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    // Kotlin stdlib
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
@@ -54,12 +56,15 @@ dependencies {
 
     // ROOM
     val roomVersion = "2.6.1"
-    implementation ("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+
+    // Kotlin Room extensions
+    implementation ("androidx.room:room-ktx:$roomVersion")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
-    implementation ("androidx.room:room-ktx:$roomVersion")
 
     // Navigation
     val navVersion = "2.7.5"
@@ -69,11 +74,11 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     // Life Cycle Arch
-    val lifecycleVersion = "2.6.2"
+    val lifecycleVersion = "2.3.1"
 
     // ViewModel
     //noinspection GradleDependency
-    implementation("androidx.lifecycle:lifecycle-view-model-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
     // LiveData
     //noinspection GradleDependency

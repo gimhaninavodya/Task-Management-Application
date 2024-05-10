@@ -1,10 +1,9 @@
 package com.example.task_management_app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
-import com.example.task_management_app.fragments.FragmentHome
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBg : ImageView
@@ -12,6 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mainBg = findViewById(R.id.mainBg)
         mainBg.setOnClickListener{
             val intent = Intent(this@MainActivity, MainFragment::class.java )
             startActivity(intent)

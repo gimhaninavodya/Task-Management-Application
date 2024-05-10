@@ -20,7 +20,7 @@ interface ListDao {
     @Delete
     suspend fun deleteList(list: ListModel)
 
-    @Query("SELECT * FROM list ORDER BY id DESC")
+    @Query("SELECT * FROM LIST ORDER BY id DESC")
     fun getAllList(): LiveData<List<ListModel>>
 
     @Query("SELECT * FROM LIST WHERE listTitle LIKE :query OR listDes LIKE :query")

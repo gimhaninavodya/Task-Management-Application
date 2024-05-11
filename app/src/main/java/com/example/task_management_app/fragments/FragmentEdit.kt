@@ -1,60 +1,110 @@
 package com.example.task_management_app.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
+import com.example.task_management_app.MainFragment
 import com.example.task_management_app.R
+import com.example.task_management_app.databinding.FragmentEditBinding
+import com.example.task_management_app.model.ListModelNew
+import com.example.task_management_app.viewmodel.ListViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class FragmentEdit : Fragment(R.layout.fragment_edit), MenuProvider {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentEdit.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FragmentEdit : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var editListBinding : FragmentEditBinding? = null
+    private val binding get() = editListBinding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var listViewModel: ListViewModel
+    private lateinit var currentList: ListModelNew
+
+    private val args: FragmentEditArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit, container, false)
+        editListBinding = FragmentEditBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentEdit.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentEdit().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        listViewModel = (activity as MainFragment).listViewModel
+        currentList = args.list!!
+
+        binding.editTextTitle.setText(currentList.listTitle)
+        binding.editTextCat.setText(currentList.listCategory)
+        binding.editTextDes.setText(currentList.listDes)
+
+
+        binding.btnSave.setOnClickListener {
+            val listTitle = binding.editTextTitle.text.toString().trim()
+            val listCategory = binding.editTextCat.text.toString().trim()
+            val listDes = binding.editTextDes.text.toString().trim()
+
+
+            if (listTitle.isNotEmpty()) {
+                val list = ListModelNew(currentList.id, listTitle,  listCategory, listDes)
+                listViewModel.updateList(list)
+                view.findNavController().popBackStack(R.id.fragmentHome, false)
+            } else {
+                Toast.makeText(context, "Enter task title", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Set OnClickListener for the Delete button
+        binding.btnDelete.setOnClickListener {
+            deleteList()
+        }
+    }
+
+
+    private fun deleteList(){
+        AlertDialog.Builder(activity).apply{
+            setTitle("Delete Task")
+            setMessage("Do you want to delete this task?")
+            setPositiveButton("Delete"){_,_ ->
+                listViewModel.deleteList(currentList)
+                Toast.makeText(context,"Task deleted",Toast.LENGTH_SHORT).show()
+                view?.findNavController()?.popBackStack(R.id.fragmentHome,false)
+            }
+            setNegativeButton("Cancel",null)
+        }.create().show()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
+        menuInflater.inflate(R.menu.edit_menu,menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when(menuItem.itemId){
+            R.id.deleteMenu -> {
+                deleteList()
+                true
+            }else -> false
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        editListBinding = null
     }
 }

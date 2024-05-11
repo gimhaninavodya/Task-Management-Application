@@ -36,17 +36,6 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
 
-        <ImageView
-            android:id="@+id/emptyImg"
-            android:layout_width="407dp"
-            android:layout_height="630dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="156dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/p6"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeRecyclerView"
             android:layout_width="match_parent"
@@ -55,7 +44,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/emptyImg"
+                android:visibility="gone"
+                android:src="@drawable/p6"
+                android:importantForAccessibility="no" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

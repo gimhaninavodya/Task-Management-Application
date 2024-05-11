@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <EditText
             android:id="@+id/editTextTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTaskTitle" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <EditText
             android:id="@+id/editTextCat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <EditText
             android:id="@+id/editTextDes"
             android:layout_width="0dp"
             android:layout_height="200dp"
@@ -76,23 +76,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextCat" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/editTextDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="24dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:gravity="start"
-            android:hint="@string/deadline"
-            android:inputType="date"
-            android:minHeight="48dp"
-            android:textColorHint="#9C27B0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDes" />
 
         <Button
             android:id="@+id/btnSave"
@@ -104,19 +87,19 @@
             android:textSize="20sp"
             android:backgroundTint="@color/purple_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDes" />
 
         <Button
-            android:id="@+id/btnBack"
+            android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="60dp"
-            android:text="@string/back"
+            android:text="@string/deleteBtn"
             android:textSize="20sp"
             android:backgroundTint="@color/purple_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,7 +10,9 @@
         android:label="FragmentHome" >
         <action
             android:id="@+id/action_fragmentHome_to_fragmentAdd"
-            app:destination="@id/fragmentAdd" />
+            app:destination="@id/fragmentAdd"
+            app:popUpTo="@id/fragmentHome"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_fragmentHome_to_fragmentEdit"
             app:destination="@id/fragmentEdit" />
@@ -33,7 +35,7 @@
 
         <argument
             android:name="list"
-            app:argType="com.example.task_management_app.model.ListModel"
+            app:argType="com.example.task_management_app.model.ListModelNew"
             app:nullable="true"/>
     </fragment>
 </navigation>

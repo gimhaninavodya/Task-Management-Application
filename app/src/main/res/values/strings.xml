@@ -20,4 +20,5 @@
     <string name="title_list_view">Title</string>
     <string name="description_list_view">Description</string>
     <string name="_2024_05_07">2024-05-07</string>
+    <string name="deleteBtn">Delete</string>
 </resources>

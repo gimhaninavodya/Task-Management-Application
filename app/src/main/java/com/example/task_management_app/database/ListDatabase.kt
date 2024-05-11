@@ -4,11 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.example.task_management_app.model.ListModel
+import com.example.task_management_app.model.ListModelNew
 
-@Database(entities = [ListModel::class], version = 1)
-@TypeConverters(Converters::class) // Add this line to register type converters
+@Database(entities = [ListModelNew::class], version = 2)
 abstract class ListDatabase : RoomDatabase() {
 
     abstract fun getListDao(): ListDao

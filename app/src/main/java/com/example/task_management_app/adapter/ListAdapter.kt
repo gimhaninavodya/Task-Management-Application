@@ -8,22 +8,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.task_management_app.databinding.ListBinding
 import com.example.task_management_app.fragments.FragmentHomeDirections
-import com.example.task_management_app.model.ListModel
+import com.example.task_management_app.model.ListModelNew
 
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
     class ListViewHolder(val itemBinding: ListBinding) : RecyclerView.ViewHolder(itemBinding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<ListModel>(){
-        override fun areItemsTheSame(oldItem: ListModel, newItem: ListModel): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<ListModelNew>(){
+        override fun areItemsTheSame(oldItem: ListModelNew, newItem: ListModelNew): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.listDes == newItem.listDes &&
                     oldItem.listTitle == newItem.listTitle &&
-                    oldItem.listCategory == newItem.listCategory &&
-                    oldItem.listDate == newItem.listDate
+                    oldItem.listCategory == newItem.listCategory
         }
 
-        override fun areContentsTheSame(oldItem: ListModel, newItem: ListModel): Boolean {
+        override fun areContentsTheSame(oldItem: ListModelNew, newItem: ListModelNew): Boolean {
             return oldItem == newItem
         }
     }
@@ -44,7 +43,6 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
         holder.itemBinding.textTitle.text = currentList.listTitle
         holder.itemBinding.textDes.text = currentList.listDes
-        holder.itemBinding.textDate.text = currentList.listDate.toString()
 
         holder.itemView.setOnClickListener {
             val direction = FragmentHomeDirections.actionFragmentHomeToFragmentEdit(currentList)

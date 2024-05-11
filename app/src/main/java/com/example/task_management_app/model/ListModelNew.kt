@@ -8,11 +8,10 @@ import java.util.Date
 
 @Entity(tableName = "list")
 @Parcelize
-data class ListModel(
+data class ListModelNew(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val listTitle: String,
     val listCategory: String,
-    val listDes: String,
-    val listDate: Date
+    val listDes: String
 ): Parcelable

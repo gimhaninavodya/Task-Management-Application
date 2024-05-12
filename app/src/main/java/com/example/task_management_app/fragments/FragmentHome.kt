@@ -2,14 +2,10 @@ package com.example.task_management_app.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
+import android.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -20,13 +16,14 @@ import com.example.task_management_app.databinding.FragmentHomeBinding
 import com.example.task_management_app.model.ListModelNew
 import com.example.task_management_app.viewmodel.ListViewModel
 
-class FragmentHome : Fragment(R.layout.fragment_home) , SearchView.OnQueryTextListener, MenuProvider {
+class FragmentHome : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener {
 
     private var homeBinding: FragmentHomeBinding? = null
     private val binding get() = homeBinding!!
 
     private lateinit var listViewModel: ListViewModel
     private lateinit var listAdapter: ListAdapter
+    private lateinit var constraintSet: ConstraintSet
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,30 +36,54 @@ class FragmentHome : Fragment(R.layout.fragment_home) , SearchView.OnQueryTextLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(this, viewLifecycleOwner, androidx.lifecycle.Lifecycle.State.RESUMED)
-
+        // Initialize ViewModel
         listViewModel = ViewModelProvider(requireActivity())[ListViewModel::class.java]
+
+        // Initialize ConstraintSet
+        constraintSet = ConstraintSet()
+        constraintSet.clone(binding.constraintLayout) // Use the ID of the parent layout
+
+        // Setup RecyclerView
         setupHomeRecyclerView()
 
+        // Setup SearchView
+        binding.searchMenu.setOnQueryTextListener(this) // Listen for search query changes
+
+        // Handle Add Button Click
         binding.addBtn.setOnClickListener {
-            // Pop back stack to ensure a new instance of the fragment is created
-            view.findNavController().popBackStack(R.id.fragmentHome, false)
             // Navigate to the add fragment
             view.findNavController().navigate(R.id.action_fragmentHome_to_fragmentAdd)
+        }
+        binding.searchMenu.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // Update constraints to keep RecyclerView at the bottom
+                constraintSet.connect(
+                    binding.homeRecyclerView.id,
+                    ConstraintSet.TOP,
+                    binding.searchMenu.id,
+                    ConstraintSet.BOTTOM
+                )
+                constraintSet.applyTo(binding.constraintLayout)
+            } else {
+                // Update constraints to keep RecyclerView at the bottom of the parent
+                constraintSet.connect(
+                    binding.homeRecyclerView.id,
+                    ConstraintSet.TOP,
+                    binding.addBtn.id,
+                    ConstraintSet.BOTTOM
+                )
+                constraintSet.applyTo(binding.constraintLayout)
+            }
         }
     }
 
     private fun updateUI(list: List<ListModelNew>?) {
         if (!list.isNullOrEmpty()) {
-            if (list.isNotEmpty()){
-                binding.emptyImg.visibility = View.GONE
-                binding.homeRecyclerView.visibility = View.VISIBLE
-            }else{
-                binding.emptyImg.visibility = View.VISIBLE
-                binding.homeRecyclerView.visibility = View.GONE
-            }
-
+            binding.emptyImg.visibility = View.GONE
+            binding.homeRecyclerView.visibility = View.VISIBLE
+        } else {
+            binding.emptyImg.visibility = View.VISIBLE
+            binding.homeRecyclerView.visibility = View.GONE
         }
     }
 
@@ -74,25 +95,14 @@ class FragmentHome : Fragment(R.layout.fragment_home) , SearchView.OnQueryTextLi
             adapter = listAdapter
         }
 
-        activity?.let{
-            listViewModel.getAllList().observe(viewLifecycleOwner) { list ->
-                listAdapter.differ.submitList(list)
-                updateUI(list)
-            }
-        }
-
-    }
-
-    private fun searchList(query: String?) {
-        query?.let { // Perform search only if query is not null
-            val searchQuery = "%$query"
-            listViewModel.searchList(searchQuery).observe(viewLifecycleOwner) { list ->
-                listAdapter.differ.submitList(list)
-            }
+        listViewModel.getAllList().observe(viewLifecycleOwner) { list ->
+            listAdapter.differ.submitList(list)
+            updateUI(list)
         }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        // Handle text submission if needed
         return false
     }
 
@@ -101,22 +111,16 @@ class FragmentHome : Fragment(R.layout.fragment_home) , SearchView.OnQueryTextLi
         return true
     }
 
+    private fun searchList(query: String?) {
+        val searchQuery = "%$query%"
+        listViewModel.searchList(searchQuery).observe(viewLifecycleOwner) { list ->
+            listAdapter.differ.submitList(list)
+            updateUI(list)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         homeBinding = null // Cleanup homeBinding to avoid memory leaks
     }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menu.clear()
-        menuInflater.inflate(R.menu.home_menu, menu)
-
-        val menuSearch = menu.findItem(R.id.searchMenu).actionView as SearchView
-        menuSearch.isSubmitButtonEnabled = false
-        menuSearch.setOnQueryTextListener(this)
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return false
-    }
-
 }

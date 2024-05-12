@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.task_management_app.R
 import com.example.task_management_app.databinding.FragmentAddBinding
@@ -38,6 +39,9 @@ class FragmentAdd : Fragment() {
         view.findViewById<Button>(R.id.btnCreate).setOnClickListener {
             saveList()
         }
+        view.findViewById<Button>(R.id.btnBack).setOnClickListener {
+            view.findNavController().navigate(R.id.action_fragmentAdd_to_fragmentHome)
+        }
     }
 
     private fun saveList() {
@@ -52,7 +56,9 @@ class FragmentAdd : Fragment() {
 
             Toast.makeText(requireContext(), "Task Saved", Toast.LENGTH_SHORT).show()
             // Navigate to the desired destination
-            findNavController().popBackStack(R.id.fragmentHome, false)
+            findNavController().popBackStack(R.id.fragmentHome, true)
+            // Navigate to the add fragment
+            view?.findNavController()?.navigate(R.id.action_fragmentAdd_to_fragmentHome)
         } else {
             Toast.makeText(requireContext(), "Please enter valid date and title!", Toast.LENGTH_SHORT).show()
         }

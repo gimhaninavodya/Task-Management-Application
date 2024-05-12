@@ -23,6 +23,6 @@ interface ListDao {
     @Query("SELECT * FROM LIST ORDER BY id DESC")
     fun getAllList(): LiveData<List<ListModelNew>>
 
-    @Query("SELECT * FROM LIST WHERE listTitle LIKE :query OR listDes LIKE :query")
+    @Query("SELECT * FROM LIST WHERE listTitle LIKE '%' || :query || '%'")
     fun searchList(query: String?): LiveData<List<ListModelNew>>
 }

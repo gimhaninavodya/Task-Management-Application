@@ -2,12 +2,7 @@ package com.example.task_management_app.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -53,15 +48,13 @@ class FragmentEdit : Fragment(R.layout.fragment_edit), MenuProvider {
         binding.editTextCat.setText(currentList.listCategory)
         binding.editTextDes.setText(currentList.listDes)
 
-
         binding.btnSave.setOnClickListener {
             val listTitle = binding.editTextTitle.text.toString().trim()
             val listCategory = binding.editTextCat.text.toString().trim()
             val listDes = binding.editTextDes.text.toString().trim()
 
-
             if (listTitle.isNotEmpty()) {
-                val list = ListModelNew(currentList.id, listTitle,  listCategory, listDes)
+                val list = ListModelNew(currentList.id, listTitle, listCategory, listDes)
                 listViewModel.updateList(list)
                 view.findNavController().popBackStack(R.id.fragmentHome, false)
             } else {
